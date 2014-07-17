@@ -1,0 +1,39 @@
+.main {
+  margin-top: 54px;
+}
+
+@background: #f8fbfc;
+@border: #fbfbfb;
+
+.header {
+  padding: 20px;
+  background-color: @background;
+  border-bottom: 1px solid @border;
+}
+
+.secondary {
+  .header;
+  background-color: darken(@background, 10%);
+}
+
+.footer {
+  padding: 20px;
+  background-color: @background;
+  border-top: 1px solid @border;
+  margin-top: 15px;
+}
+
+.push-footer {
+  margin-top: 15px;
+  margin-bottom: -15px;
+}
+
+.nav-image {
+  a {
+    padding: 7px !important;
+
+    img {
+      height: 36px;
+    }
+  }
+}
