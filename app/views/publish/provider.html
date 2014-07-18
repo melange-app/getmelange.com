@@ -1,0 +1,44 @@
+<div class="container main">
+  <h1>Publish Provider</h1>
+  <form role="form">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" class="form-control">
+      <p class="help-block">
+        The name that will appear in the Melange app for the server.
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" class="form-control"></textarea>
+      <p class="help-block">
+        Short and sweet description of the service, and why users should
+        choose it.
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="url">URL</label>
+      <input type="text" id="url" name="url" class="form-control">
+      <p class="help-block">
+        The URL where the provider will be hosted (including port).
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="fingerprint">Fingerprint</label>
+      <input type="text" id="fingerprint" name="fingerprint" class="form-control">
+      <p class="help-block">
+        The public-fingerprint of the server. This can be found in the
+        Server Settings -> About.
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="proof">Proof of Ownership</label>
+      <input type="text" id="proof" name="proof" class="form-control">
+      <p class="help-block">
+        A proof of ownership token. This can be found in the Server Settings ->
+        About -> Generate Proof of Ownership.
+      </p>
+    </div>
+    <button type="submit" class="btn btn-success">Validate and Publish</button>
+  </form>
+</div>

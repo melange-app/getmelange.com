@@ -9,15 +9,22 @@
     </div>
   </form>
   <h3><i class="fa fa-fw fa-star"></i> Featured Applications</h3>
-  <div ng-repeat="i in [1,2,3,4]">a</div>
-  <h3><i class="fa fa-fw fa-heart"></i> Most Loved Applications</h3>
+  <br/>
+  <div class="row">
+    <mlg-app-panel size="6" ng-repeat="i in [1, 2, 3]"></mlg-app-panel>
+  </div>
+  <h3><i class="fa fa-fw fa-heart"></i> Most Used Applications</h3>
+  <br/>
+  <div class="row">
+    <mlg-app-panel size="6" ng-repeat="i in [1, 2, 3]"></mlg-app-panel>
+  </div>
 </div>
 <div class="secondary push-footer">
   <div class="container">
     <h4>Psst, looking to create an application?</h4>
     <p>
       We can help you create and publish your application to
-      Melange in the <a href="#">Developer Center</a>.
+      Melange in the <a href="#/developer">Developer Center</a>
     </p>
   </div>
 </div>
