@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"github.com/airdispatch/go-pressure"
-  "net/http"
 	"io"
 )
 
@@ -33,28 +32,27 @@ func (j *JSONView) ContentLength() int            { return len(j.getCache()) }
 func (j *JSONView) ContentType() string           { return "application/json" }
 func (j *JSONView) Headers() pressure.ViewHeaders { return nil }
 
-
 type APIView struct {
-	Request *http.Request
+	Method string
 	pressure.View
 }
 
 func (a *APIView) WriteBody(r io.Writer) {
-	if a.Request.Method == "OPTIONS" {
+	if a.Method == "OPTIONS" {
 		return
 	}
 	a.View.WriteBody(r)
 }
 
 func (a *APIView) StatusCode() int {
-	if a.Request.Method == "OPTIONS" {
+	if a.Method == "OPTIONS" {
 		return 200
 	}
 	return a.View.StatusCode()
 }
 
 func (a *APIView) ContentLength() int {
-	if a.Request.Method == "OPTIONS" {
+	if a.Method == "OPTIONS" {
 		return 0
 	}
 	return a.View.ContentLength()

@@ -50,8 +50,11 @@ func (u *TrackerController) GetResponse(
 		return nil, &pressure.HTTPError{500, "500: Error loading trackers"}
 	}
 
-	return &JSONView{
-		Content: trackers,
+	return &APIView{
+		Method: p.Method,
+		View: &JSONView{
+			Content: trackers,
+		},
 	}, nil
 }
 
@@ -69,8 +72,11 @@ func (u *ServerController) GetResponse(
 		return nil, &pressure.HTTPError{500, "500: Error loading servers"}
 	}
 
-	return &JSONView{
-		Content: servers,
+	return &APIView{
+		Method: p.Method,
+		View: &JSONView{
+			Content: servers,
+		},
 	}, nil
 }
 
