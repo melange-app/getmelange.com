@@ -11,12 +11,12 @@
   <h3><i class="fa fa-fw fa-cloud"></i> Featured Servers</h3>
   <br/>
   <div class="row">
-    <mlg-app-panel size="6" ng-repeat="i in [1, 2, 3, 4]"></mlg-app-panel>
+    <mlg-app-panel size="6" object="p" ng-repeat="p in servers"></mlg-app-panel>
   </div>
   <h3><i class="fa fa-fw fa-envelope"></i> Featured Trackers</h3>
   <br/>
   <div class="row">
-    <mlg-app-panel size="6" ng-repeat="i in [1, 2, 3]"></mlg-app-panel>
+    <mlg-app-panel size="6" object="p" ng-repeat="p in trackers"></mlg-app-panel>
   </div>
 </div>
 <div class="secondary push-footer">
@@ -24,7 +24,7 @@
     <h4>Starting a new provider? We can help.</h4>
     <p>
       Find out more information about how to publish and maintain
-      providers for Melange in the <a href="#/developer">Developer Center</a>.
+      providers for Melange in the <a href="/developer">Developer Center</a>.
     </p>
   </div>
 </div>

@@ -8,10 +8,8 @@
  * Controller of the getmelangecomApp
  */
 angular.module('getmelangecomApp')
-  .controller('ProvidersCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('ProvidersCtrl', ['$scope', 'mlgTrackers', 'mlgServers',
+    function ($scope, mlgTrackers, mlgServers) {
+      $scope.trackers = mlgTrackers.query();
+      $scope.servers = mlgServers.query();
+  }]);

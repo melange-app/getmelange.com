@@ -5,13 +5,13 @@
     <title>Melange</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" href="public/images/melange.png" type="image/png">
+    <link rel="icon" href="/public/images/melange.png" type="image/png">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/lumen/bootstrap.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-    <link rel="stylesheet/less" href="public/styles/main.less">
+    <link rel="stylesheet/less" href="/public/styles/main.less">
   </head>
   <body ng-app="getmelangecomApp">
     <!--[if lt IE 7]>
@@ -22,7 +22,7 @@
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="get-melange-navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="nav-image"><a ng-href="/"><img src="public/images/melange.png"></a></li>
+            <li class="nav-image"><a ng-href="/"><img src="/public/images/melange.png"></a></li>
             <li><a ng-href="/apps">Applications</a></li>
             <li><a ng-href="/providers">Providers</a></li>
           </ul>
@@ -46,20 +46,23 @@
 
 
     <!--[if lt IE 9]>
-    <script src="public/lib/es5-shim.js"></script>
-    <script src="public/lib/json3.js"></script>
+    <script src="/public/lib/es5-shim.js"></script>
+    <script src="/public/lib/json3.js"></script>
     <![endif]-->
 
-    <script src="public/lib/less.js"></script>
-    <script src="public/lib/angular.js"></script>
-    <script src="public/lib/json3.js"></script>
-    <script src="public/lib/angular-resource.js"></script>
-    <script src="public/lib/angular-route.js"></script>
+    <script src="/public/lib/less.js"></script>
+    <script src="/public/lib/angular.js"></script>
+    <script src="/public/lib/json3.js"></script>
+    <script src="/public/lib/angular-resource.js"></script>
+    <script src="/public/lib/angular-route.js"></script>
 
-    <script src="public/scripts/app.js"></script>
-    <script src="public/scripts/directives.js"></script>
-    <script src="public/scripts/controllers/main.js"></script>
-    <script src="public/scripts/controllers/applications.js"></script>
-    <script src="public/scripts/controllers/providers.js"></script>
+    <script src="/public/scripts/app.js"></script>
+    <script src="/public/scripts/directives.js"></script>
+    <script src="/public/scripts/services.js"></script>
+    <!-- Controllers  -->
+    <script src="/public/scripts/controllers/main.js"></script>
+    <script src="/public/scripts/controllers/applications.js"></script>
+    <script src="/public/scripts/controllers/providers.js"></script>
+    <script src="/public/scripts/controllers/publish.js"></script>
 </body>
 </html>
