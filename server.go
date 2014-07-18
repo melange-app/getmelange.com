@@ -13,7 +13,6 @@ func ConnectToDB() (*mgo.Session, error) {
 	pass := os.Getenv("MONGO_PASSWORD")
 	url := os.Getenv("MONGO_URL")
 	connect := fmt.Sprintf("mongodb://%s:%s@%s", user, pass, url)
-  fmt.Println("Connecting To", connect)
 	return mgo.Dial(connect)
 }
 
