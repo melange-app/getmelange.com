@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/airdispatch/go-pressure"
+	pressure "github.com/airdispatch/go-pressure"
 	"labix.org/v2/mgo"
 )
 
@@ -33,6 +33,7 @@ type Provider struct {
 	Fingerprint   string `json:"fingerprint"`
 	EncryptionKey string `bson:"encryption_key" json:"encryption_key"`
 	Proof         string `json:"proof"`
+	Alias         string `json:"alias"`
 	Users         int    `json:"users"`
 }
 
