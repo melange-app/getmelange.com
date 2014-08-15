@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/airdispatch/go-pressure"
-	"labix.org/v2/mgo"
 	"os"
+
+	pressure "github.com/airdispatch/go-pressure"
+	"labix.org/v2/mgo"
 )
 
 func ConnectToDB() (*mgo.Session, error) {
@@ -34,12 +35,15 @@ func main() {
 
 	// Register API URLS
 	theServer.RegisterURL(
-		pressure.NewURLRoute("^/api/updates", &UpdateController{}),
+		pressure.NewURLRoute("^/favicon.ico", &Controller404{}),
 		pressure.NewURLRoute("^/api/trackers", &TrackerController{
 			Collection: db.C("trackers"),
 		}),
 		pressure.NewURLRoute("^/api/servers", &ServerController{
 			Collection: db.C("servers"),
+		}),
+		pressure.NewURLRoute(`^/api/updates/(?P<version>[\w\.]*)/(?P<platform>\w*)`, &UpdateController{
+			Collection: db.C("updates"),
 		}),
 		pressure.NewURLRoute("^/api/applications", &ApplicationController{}),
 	)
