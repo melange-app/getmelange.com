@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -121,6 +123,18 @@ type Provider struct {
 	Users         int    `json:"users"`
 }
 
+func IsDebug(req *http.Request) bool {
+	q := req.URL.RawQuery
+
+	values, err := url.ParseQuery(q)
+	if err != nil {
+		return false
+	}
+
+	obj := values.Get("debug")
+	return obj != ""
+}
+
 type TrackerController struct {
 	Collection *mgo.Collection
 }
@@ -130,7 +144,9 @@ func (u *TrackerController) GetResponse(
 	l *pressure.Logger,
 ) (pressure.View, *pressure.HTTPError) {
 	var trackers []*Provider
-	err := u.Collection.Find(nil).Sort("-users").All(&trackers)
+	err := u.Collection.Find(map[string]interface{}{
+		"debug": IsDebug(p.Request),
+	}).Sort("-users").All(&trackers)
 	if err != nil {
 		return nil, &pressure.HTTPError{500, "500: Error loading trackers"}
 	}
@@ -152,7 +168,9 @@ func (u *ServerController) GetResponse(
 	l *pressure.Logger,
 ) (pressure.View, *pressure.HTTPError) {
 	var servers []*Provider
-	err := u.Collection.Find(nil).Sort("-users").All(&servers)
+	err := u.Collection.Find(map[string]interface{}{
+		"debug": IsDebug(p.Request),
+	}).Sort("-users").All(&servers)
 	if err != nil {
 		return nil, &pressure.HTTPError{500, "500: Error loading servers"}
 	}
