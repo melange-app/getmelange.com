@@ -1,0 +1,53 @@
+{{ define "title" }}: Add App{{ end }}
+
+{{ define "body" }}
+<div class="container main">
+  <h1>Add Application <small>Choose a Repository</small></h1>
+  {{ range $key, $repos := .repos }}
+  <h3>As
+    {{ if $key }}
+    {{ $key }}
+    {{ else }}
+    You
+    {{ end }}
+  </h3>
+  <div class="list-group">
+    {{ range . }}
+    <a href="" class="repository list-group-item">{{ .FullName }}</a>
+    {{ end }}
+  </div>
+  {{ end }}
+  <form role="form" method="post">
+    <div class="form-group">
+      <label for="app_id">Application Id</label>
+      <input class="form-control" type="text" id="app_id" name="application_id" readonly/>
+    </div>
+    <input type="hidden" id="repo_url" name="application_url"/>
+    <button type="submit" class="btn btn-primary">Publish Application</button>
+  </form>
+</div>
+{{ end }}
+
+{{ define "moreScripts" }}
+<script>
+  $(document).ready(function() {
+    var lastActive = null;
+    $(".repository").click(function() {
+      if(lastActive !== null) {
+        $(lastActive).removeClass("active");
+      }
+      lastActive = this;
+      $(this).addClass("active");
+
+      var data = $(this).text();
+      var comp = data.split("/");
+      $("#app_id").val("com.github." + comp[0] + "." + comp[1]);
+      $("#repo_url").val(data);
+
+      return false;
+    })
+  });
+</script>
+{{ end }}
+
+{{ define "moreFooter" }}{{ end }}

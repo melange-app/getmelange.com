@@ -1,0 +1,62 @@
+{{ define "title" }}: Apps{{ end }}
+
+{{ define "app" }}
+<div class="col-sm-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a href="{{ .Repository }}">{{ .Name }}</a>
+    </div>
+    <div class="panel-body">
+      {{ .Description }}
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "body" }}
+<div class="container main">
+  <div class="text-center">
+    <h1>Melange Applications</h1>
+    <p>Discover applications that extend what Melange can do.</p>
+  </div>
+  <form role="search">
+    <div class="form-group">
+    <!-- <input type="search" class="form-control" placeholder="Search for an application..."> -->
+    </div>
+  </form>
+  <h3><i class="fa fa-fw fa-star"></i> Featured Applications</h3>
+  <br/>
+  <div class="row">
+    {{ range .apps }}
+      {{ template "app" . }}
+    {{ else }}
+      <div class="col-sm-12 text-center">
+        <h4 class="text-muted">No applications have been published.</h4>
+      </div>
+    {{ end }}
+  </div>
+  <h3><i class="fa fa-fw fa-heart"></i> Most Used Applications</h3>
+  <br/>
+  <div class="row">
+    {{ range .mostUsed }}
+      {{ template "app" . }}
+    {{ else }}
+      <div class="col-sm-12 text-center">
+        <h4 class="text-muted">No applications have been published.</h4>
+      </div>
+    {{ end }}
+  </div>
+</div>
+{{ end }}
+
+{{ define "moreFooter" }}
+<div class="secondary">
+  <div class="container">
+    <h4>Psst, looking to create an application?</h4>
+    <p>
+      We can help you create and publish your application to
+      Melange in the <a href="/developer">Developer Center</a>
+    </p>
+  </div>
+</div>
+{{ end }}

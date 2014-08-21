@@ -16,11 +16,20 @@
   background-color: darken(@background, 10%);
 }
 
+@footersize: 200px;
+
 .footer {
-  padding: 20px;
   background-color: @background;
   border-top: 1px solid @border;
-  margin-top: 15px;
+  min-height: @footersize;
+  position:absolute;
+  bottom:0;
+  left:0;
+  right: 0;
+}
+
+.footer-content {
+  padding: 20px;
 }
 
 .push-footer {
@@ -36,4 +45,20 @@
       height: 36px;
     }
   }
+}
+
+html,
+body {
+	margin:0;
+	padding:0;
+	height:100%;
+}
+
+.wrapper {
+	min-height:100%;
+	position:relative;
+}
+
+.content {
+	padding-bottom: @footersize + 30px;   /* Height of the footer element */
 }

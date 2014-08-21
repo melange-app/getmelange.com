@@ -1,22 +1,37 @@
+{{ define "title" }}: Developer{{ end }}
+
+{{ define "body" }}
 <div class="container main">
   <div class="text-center">
     <h1>Melange Developer</h1>
-    <p>Quis Lorem consectetur enim elit adipisicing officia anim occaecat in ullamco.</p>
+    <p>Learn all about how to extend Melange.</p>
   </div>
   <form role="search">
     <div class="form-group">
-    <input type="search" class="form-control" placeholder="Search for a Resource...">
+    <!-- <input type="search" class="form-control" placeholder="Search for a Resource..."> -->
     </div>
   </form>
   <h3>
     Publish
     <small>Get your hard work on Melange.</small>
   </h3>
+  {{ if .authenticated }}
+  <p>Logged in as {{ .user.Name }}. <a href="/developer/logout">Logout</a></p>
   <ul>
     <li><a href="/developer/publish/app"><i class="fa fa-fw fa-cube"></i> Application</a></li>
     <li><a href="/developer/publish/server"><i class="fa fa-fw fa-cloud"></i> Server</a></li>
     <li><a href="/developer/publish/tracker"><i class="fa fa-fw fa-envelope"></i> Tracker</a></li>
   </ul>
+  {{ else }}
+  <div>
+    <p>In order to publish applications, you must be logged in.</p>
+    <p>
+      <a class="btn btn-primary" href="https://github.com/login/oauth/authorize?scope=user:email&client_id={{ .clientId }}">
+        <i class="fa fa-github"></i> Sign in with Github
+      </a>
+    </p>
+  </div>
+  {{ end }}
   <hr/>
   <h3>
     Guides
@@ -36,3 +51,6 @@
     <li><a href="/developer/creating-a-compliant-tracker">Creating a Compliant Tracker</a></li>
   </ul>
 </div>
+{{ end }}
+
+{{ define "moreFooter" }}{{ end }}

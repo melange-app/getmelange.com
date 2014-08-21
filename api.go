@@ -9,6 +9,7 @@ import (
 
 	pressure "github.com/airdispatch/go-pressure"
 	"labix.org/v2/mgo"
+	"labix.org/v2/mgo/bson"
 )
 
 // Squirrel.Mac Update Response:
@@ -183,14 +184,42 @@ func (u *ServerController) GetResponse(
 	}, nil
 }
 
-type ApplicationController struct{}
+type ApplicationController struct {
+	Collection *mgo.Collection
+}
 
 func (u *ApplicationController) GetResponse(
 	p *pressure.Request,
 	l *pressure.Logger,
 ) (pressure.View, *pressure.HTTPError) {
-	return nil, &pressure.HTTPError{
-		Code: 204,
-		Text: "",
+	// Load Query Params
+	var find map[string]interface{}
+	query, err := url.ParseQuery(p.Request.URL.RawQuery)
+	if err != nil {
+		fmt.Println("Error parsing query", err)
+		return nil, internalError
 	}
+
+	// Get Query from URL
+	if query.Get("q") != "" {
+		find = map[string]interface{}{
+			"name": bson.RegEx{
+				Pattern: fmt.Sprintf(`.*(%s).*`, query),
+			},
+		}
+	}
+
+	// Find Apps
+	apps := make([]*App, 0)
+	err = u.Collection.Find(find).All(&apps)
+	if err != nil {
+		return nil, &pressure.HTTPError{500, "500: Error loading servers"}
+	}
+
+	return &APIView{
+		Method: p.Method,
+		View: &JSONView{
+			Content: apps,
+		},
+	}, nil
 }

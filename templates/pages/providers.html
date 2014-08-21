@@ -1,3 +1,22 @@
+{{ define "title" }}: Providers{{ end }}
+
+{{ define "provider" }}
+<div class="col-sm-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{ .Name }}
+    </div>
+    <div class="panel-body">
+      {{ .Description }}
+    </div>
+    <div class="panel-footer">
+      <i class="fa fa-download"></i> {{ .Users }}
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "body" }}
 <div class="container main">
   <div class="text-center">
     <h1>Melange Providers</h1>
@@ -5,21 +24,29 @@
   </div>
   <form role="search">
     <div class="form-group">
-    <input type="search" class="form-control" placeholder="Search for an provider...">
+    <!-- <input type="search" class="form-control" placeholder="Search for an provider..."> -->
     </div>
   </form>
   <h3><i class="fa fa-fw fa-cloud"></i> Featured Servers</h3>
   <br/>
   <div class="row">
-    <mlg-app-panel size="6" object="p" ng-repeat="p in servers"></mlg-app-panel>
+    {{ range .servers }}
+      {{ template "provider" . }}
+    {{ end }}
   </div>
   <h3><i class="fa fa-fw fa-envelope"></i> Featured Trackers</h3>
   <br/>
   <div class="row">
-    <mlg-app-panel size="6" object="p" ng-repeat="p in trackers"></mlg-app-panel>
+    {{ range .trackers }}
+      {{ template "provider" . }}
+    {{ end }}
   </div>
 </div>
-<div class="secondary push-footer">
+{{ end }}
+
+{{ define "moreFooter" }}
+
+<div class="secondary">
   <div class="container">
     <h4>Starting a new provider? We can help.</h4>
     <p>
@@ -28,3 +55,4 @@
     </p>
   </div>
 </div>
+{{ end }}

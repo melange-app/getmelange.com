@@ -2,9 +2,41 @@ package main
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/airdispatch/go-pressure"
-	"io"
+	"github.com/gorilla/context"
+	"github.com/gorilla/sessions"
 )
+
+type RedirectView struct {
+	Location string
+}
+
+func (r *RedirectView) WriteBody(w http.ResponseWriter) {}
+
+func (r *RedirectView) StatusCode() int {
+	return 302
+}
+func (r *RedirectView) ContentLength() int  { return 0 }
+func (r *RedirectView) ContentType() string { return "" }
+func (r *RedirectView) Headers() pressure.ViewHeaders {
+	a := make(pressure.ViewHeaders)
+	a["Location"] = r.Location
+	return a
+}
+
+type SessionView struct {
+	Request *http.Request
+	Session *sessions.Session
+	pressure.View
+}
+
+func (r *SessionView) AddCookies(w http.ResponseWriter) {
+	defer context.Clear(r.Request)
+
+	r.Session.Save(r.Request, w)
+}
 
 type JSONView struct {
 	Content interface{}
@@ -23,7 +55,7 @@ func (j *JSONView) getCache() []byte {
 	return j.cache
 }
 
-func (j *JSONView) WriteBody(w io.Writer) {
+func (j *JSONView) WriteBody(w http.ResponseWriter) {
 	w.Write(j.getCache())
 }
 
@@ -37,7 +69,7 @@ type APIView struct {
 	pressure.View
 }
 
-func (a *APIView) WriteBody(r io.Writer) {
+func (a *APIView) WriteBody(r http.ResponseWriter) {
 	if a.Method == "OPTIONS" {
 		return
 	}

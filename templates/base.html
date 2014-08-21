@@ -1,0 +1,71 @@
+{{ define "base" }}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Melange {{ template "title". }}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="/public/images/melange.png" type="image/png">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/lumen/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet/less" href="/public/styles/main.less">
+  </head>
+  <body ng-app="getmelangecomApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="get-melange-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="nav-image"><a href="/"><img height="36" src="/public/images/melange.png"></a></li>
+            <li><a href="/apps">Applications</a></li>
+            <li><a href="/providers">Providers</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/developer">Developers</a></li>
+            <!-- <li><a ng-href="/discuss">Discuss</a></li> -->
+            <!-- <li><a ng-href="/blog">Blog</a></li> -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="wrapper">
+      <div class="content">
+        {{ template "body" . }}
+      </div>
+      <div class="footer">
+        {{ template "moreFooter" . }}
+        <div class="container-fluid">
+          <div class="footer-content">
+            <p>Built for <a href="http://airdispat.ch">AirDispatch</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.3/less.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    {{ template "moreScripts" . }}
+    <!-- Analytics Code -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-26839112-7', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
+{{ end }}
+
+{{ define "moreScripts" }}{{ end }}
