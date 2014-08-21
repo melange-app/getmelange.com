@@ -5,7 +5,7 @@ deploy:
   provider: heroku
   strategy: git
   api_key:
-    secure: dzKKxhSX5CiAtRvkHL6SuFusqrF4JrM9Y4fu0wcV0+9VUecBfD8ShOy10JpH0e5f/YoMtIZUNIGgzPS4f5SaGH1+xtT4dkSOYHV2FmFPvCF/zGjTkwVEYCzGZWnBMY1J1w2UpvcrIH3BIid41izBHG0NcKZYh7djRdSfYxWALWI=
+    secure: S3aIZkH3CSAz4kokMWG+xCb8dZoTWEaqXYDab03RRWwMq66JBnN280zuhqCpd7UDYj3lX+JsxPsbjiBv0+RB7byBkOAuaiai281/M44OKA/27ADoltwMiZ68NyijLUbd1NDfjI5Bg53R+1BoqUKkFcbDxjVh5Nigp+xGYDxTE0A=
   app: salty-wave-7142
   on:
     repo: melange-app/getmelange.com
