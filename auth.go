@@ -85,16 +85,28 @@ func (c *LoginController) GetResponse(p *pressure.Request, l *pressure.Logger) (
 	config, err := GetConfig()
 	if err != nil {
 		fmt.Println("Couldn't get config", err)
+		return nil, &pressure.HTTPError{
+			Code: 500,
+			Text: err.Error(),
+		}
 	}
 
 	t, err := config.NewTransportWithCode(p.Form["code"][0])
 	if err != nil {
 		fmt.Println("Couldn't exchange token", err)
+		return nil, &pressure.HTTPError{
+			Code: 500,
+			Text: err.Error(),
+		}
 	}
 
 	session, err := store.Get(p.Request, "tokens")
 	if err != nil {
 		fmt.Println("Error getting session", err)
+		return nil, &pressure.HTTPError{
+			Code: 500,
+			Text: err.Error(),
+		}
 	}
 
 	PutTokenInSession(t.Token(), session)

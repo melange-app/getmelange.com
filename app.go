@@ -78,6 +78,11 @@ func (a *AddApplicationController) GetResponse(p *pressure.Request, l *pressure.
 		u, _, err := gh.Users.Get("")
 		if err != nil {
 			fmt.Println("Error getting github user.", err)
+
+			return nil, &pressure.HTTPError{
+				Code: 500,
+				Text: err.Error(),
+			}
 		}
 
 		if url[0] != *u.Login {
