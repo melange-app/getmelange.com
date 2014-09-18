@@ -15,7 +15,7 @@ var config = &oauth2.Options{
 	ClientID:     GithubId,
 	ClientSecret: GithubSecret,
 	Scopes:       []string{"user:email"},
-	RedirectURL:  "http://localhost:3000/developer/login",
+	RedirectURL:  "http://www.getmelange.com/developer/login",
 }
 
 func GithubFromTransport(t *oauth2.Transport) *github.Client {
@@ -25,7 +25,7 @@ func GithubFromTransport(t *oauth2.Transport) *github.Client {
 }
 
 func GetConfig() (*oauth2.Config, error) {
-	return oauth2.NewConfig(config, "https://github.com/login/oauth2/authorize", "https://github.com/login/oauth/access_token")
+	return oauth2.NewConfig(config, "https://github.com/login/oauth/authorize", "https://github.com/login/oauth/access_token")
 }
 
 func CreateClient(location string) (*github.Client, *oauth2.Transport) {
