@@ -93,7 +93,11 @@ func main() {
 		pressure.NewURLRoute("^/developer/login", &LoginController{}),
 		pressure.NewURLRoute("^/developer/logout", &LogoutController{}),
 
-		pressure.NewURLRoute("^/developer/guides", &DeveloperIndex{
+		pressure.NewURLRoute("^/developer/view/(?P<document>.*)", &DeveloperDocument{
+			Engine: t,
+		}),
+
+		pressure.NewURLRoute("^/developer/api/(?P<document>.*)", &DeveloperAPI{
 			Engine: t,
 		}),
 

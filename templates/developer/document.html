@@ -1,0 +1,32 @@
+{{ define "title" }}: Hello{{ end }}
+
+{{ define "body" }}
+
+<div class="container main">
+  <br/>
+  <div class="well well-sm">
+    <a href="/developer">Back</a>
+  </div>
+  <div class="developer-body">
+    <h1 class="title">{{ .Title }} <small>{{ .document }}</small></h1>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="list-group spy-target">
+          {{ range $i, $v := .Contents }}
+          <a
+             class="list-group-item {{ if eq $i 0 }}active{{ end }}"
+             href="{{ .Link }}">
+            {{ .Title }}
+          </a>
+          {{ end }}
+        </div>
+      </div>
+      <div class="col-md-9" data-spy="scroll" data-target=".spy-target">
+        {{ .Body }}
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
+
+{{ define "moreFooter"}}{{ end }}

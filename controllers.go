@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/airdispatch/go-pressure"
+	pressure "github.com/airdispatch/go-pressure"
 	"labix.org/v2/mgo"
 )
 
