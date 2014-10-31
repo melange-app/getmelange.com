@@ -5,7 +5,7 @@ deploy:
   provider: heroku
   buildpack: https://github.com/kr/heroku-buildpack-go.git
   api_key:
-    secure: S3aIZkH3CSAz4kokMWG+xCb8dZoTWEaqXYDab03RRWwMq66JBnN280zuhqCpd7UDYj3lX+JsxPsbjiBv0+RB7byBkOAuaiai281/M44OKA/27ADoltwMiZ68NyijLUbd1NDfjI5Bg53R+1BoqUKkFcbDxjVh5Nigp+xGYDxTE0A=
+    secure: WNUrnO0wg+x7DHZV2wWzeJm/VnMKfXh1fURg83aDLD3bawLl5oArfxSgFJ12HSy/t8pDUrASD/gtFGBnrkrL7jKd0EKJxlOvzcSklPMc04BuKkdcLe1gRQt1ZWXZFPMuiDFtcpubiRoi8qRvy6vAGfe5X/wFeA8KHKrA+QB25f0=
   app: salty-wave-7142
   on:
     repo: melange-app/getmelange.com
