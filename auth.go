@@ -24,8 +24,16 @@ func GithubFromTransport(t *oauth2.Transport) *github.Client {
 	})
 }
 
-func GetConfig() (*oauth2.Config, error) {
-	return oauth2.NewConfig(config, "https://github.com/login/oauth/authorize", "https://github.com/login/oauth/access_token")
+func GetConfig() (*oauth2.Flow, error) {
+	return oauth2.New(
+		oauth2.Client(GithubId, GithubSecret),
+		oauth2.Endpoint(
+			"https://github.com/login/oauth/autorize",
+			"https://github.com/login/oauth/access_token",
+		),
+		oauth2.RedirectURL("http://www.getmelange.com/developer/login"),
+		oauth2.Scope("user:email"),
+	)
 }
 
 func CreateClient(location string) (*github.Client, *oauth2.Transport) {
@@ -91,7 +99,7 @@ func (c *LoginController) GetResponse(p *pressure.Request, l *pressure.Logger) (
 		}
 	}
 
-	t, err := config.NewTransportWithCode(p.Form["code"][0])
+	t, err := config.NewTransportFromCode(p.Form["code"][0])
 	if err != nil {
 		fmt.Println("Couldn't exchange token", err)
 		return nil, &pressure.HTTPError{
