@@ -81,6 +81,9 @@ occurred. The `error.message` field will contain information.
 
 # Message Management
 
+These methods are generally for interacting with Melange messages. You
+will primarily use them when building Melange plugins.
+
 ### melange.createMessage(msg, callback)
 
 `createMessage` takes a Message type and a function callback of type
@@ -206,20 +209,68 @@ address that satisfy the same `fields` and `predicate` filtering as in
 
 # Viewer Management
 
+These API calls are exclusively for "Viewers" of plugins. We will be
+posting a guide on what a viewer is and how to build one shortly. In
+essence, a "Viewer" is utilized whenever Melange needs to display a
+custom message (in a newsfeed, on a profile). The "Viewer" determines
+how to present that content to the user.
+
 ### melange.viewer(callback)
 
-### melange.refreshViewer(msg)
+`viewer` will initialize Melange's viewer system. `callback` is a
+function that accepts one argument - the Message that Melange wants
+the viewer to display.
+
+### melange.refreshViewer()
+
+`refreshViewer` will tell Melange that the content is done loading,
+and Melange should expand the Viewer's dimensions to its new
+content. Since all viewers live in iFrames, this is necessary to size
+the window correctly. If you do not call this method after loading
+the content, Melange may cut off some of the Viewer's information.
 
 # Melange Management
 
+These methods are for interacting with Melange itself. They are used
+when you need more context information, or have to perform an action
+that only Melange can do.
+
 ### melange.currentUser(callback)
+
+`currentUser` will fetch the "Address" information of the current
+user and return it to `callback`. `callback` is a function that
+accepts one argument - the "Address" of the current user.
 
 ### melange.openLink(url)
 
+`openLink` will open the `url` provided in the user's default web browser.
+
 # Data Proxy
+
+Users can now upload data and images to their servers. Plugins have a
+very simple way of accessing this content.
+
+Simply construct a URL of the following form where `addr` is the
+address of the person who uploaded the content and `id` is the "name"
+of the content. It will be served like normal.
+
+    http://data.melange/addr/id
 
 # Angular Extensions
 
+Since much of Melange is built on Angular, we decided to include some
+extras for people who wanted to use Angular in their plugins.
+
 ### mlgToField
 
-### .angularCallback
+`mlgToField` is a directive that presents an auto-completing (from
+contacts) fields for users to determine who to send a message to. See
+its use in the
+[Notes Plugin](https://github.com/melange-app/plugin-notes/blob/master/templates/new.html).
+
+It is provided in the Angular module `melangeUi`.
+
+### melange.angularCallback(callback)
+
+`angularCallback` will wrap `callback` in a `$scope.$apply()` so that
+your views will update when the callback is finally called.
