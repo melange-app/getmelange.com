@@ -6,7 +6,14 @@ Melange Javascript API
 This document is intended to be a reference for the Melange Javascript API
 for use in plugin development.
 
-This is version `0.0.5` of this document.
+This is version `0.0.10` of this document.
+
+# Using the Melange API
+
+The Melange API can be included in any Melange application with the
+following HTML:
+
+    <script src="http://common.melange/js/melange/0.0.1"></script>
 
 # Data Types
 
@@ -30,17 +37,172 @@ This is version `0.0.5` of this document.
       },
     }
 
+The Message data-type is used to represent a message sent to someone
+in a Melange application. It is utilized in all of the API calls below
+as `msg`.
+
+The following is a description of the fields:
+
+- `to`: an array of Address types that the message will be sent
+  to. This may be an empty array if the message will be public.
+- `name`: the name (string) of the message being sent. **Currently, it
+  is the developer's responsibility to ensure that this name does not
+  conflict with any other plugin.** We recommend that you prefix the
+  `id` of the message with the name of the plugin. For example, a
+  message from the chat application with identification number 1 could
+  have `name` = "chat/1"
+- `date`: the date/time that the message was sent in ISO
+  format. Generally, this should be set to `(new
+  Date()).toISOString()` as shown above.
+- `public`: this field determines whether or not the receiver(s) will
+  get a notification of the message. If the receiver will not get a
+  notification, they must be "subscribed" to the sender in order to
+  see the message.
+- `self`: *Not required for outgoing messages.* For messages you
+  receive from the Melange API, messages sent by the current user will
+  have `self` set to `true`.
+- `components`: a dictionary of named components to their string
+  values. Effectively, this is the body of the message, each "item"
+  that you wish to track in the message should have its own field in
+  the dictionary.
+
+### API Response
+
+    {
+      error: {
+        code: 0,
+        message: "",
+      }
+    }
+
+This is a generic response received by the API for "action"
+requests. If the `error.code` field is non-zero, then an error has
+occurred. The `error.message` field will contain information.
+
 # Message Management
 
 ### melange.createMessage(msg, callback)
 
+`createMessage` takes a Message type and a function callback of type
+`function(api_response)`. It will attempt to publish the `msg` given
+(according to the type defined above) as the current user, and it will
+invoke the callback upon completion (or error).
+
+Example:
+
+    melange.createMessage(
+        {
+            to: [{ alias: "hleath@airdispatch.me" }],
+            name: "documentation/test-create",
+            date: (new Date()).toISOString(),
+            public: false,
+            components: {
+                "getmelange.com/developer/method": "createMessage",
+            },
+        }, function(response) {
+            // Check for errors!
+            if (response.error.code !== 0)
+                alert(response.error.message);
+            })
+
 ### melange.updateMessage(msg, id, callback)
 
-### melange.findMessages(fields, predicate, callback, realtime)
+`updateMessage` will replace a message named `id` with the new version
+`msg`. It takes three arguments:
+
+1. The new Message as `msg`.
+2. The `name` of the message that you are replacing as `id`.
+3. A callback that receives a generic API response as `callback`.
+
+**Note: The new message's name must match the id of the message you
+  are replacing (`msg.name == id`).**
+
+Example:
+
+    melange.updateMessage(
+        {
+            to: [{ alias: "hleath@airdispatch.me" }],
+            name: "documentation/test-create",
+            date: (new Date()).toISOString(),
+            public: false,
+            components: {
+                "getmelange.com/developer/method": "updateMessage",
+            },
+        }, "documentation/test-create",
+            function(response) {
+            // Check for errors!
+            if (response.error.code !== 0)
+                alert(response.error.message);
+            })
+
+### melange.findMessages(fields, predicate, callback [, realtime])
+
+`findMessages` will return an array of Messages sent or received by
+the user matching the given `fields` and `predicate`. It takes the
+following arguments:
+
+1. `fields`: An array of component names (see Message data type
+   definition). All Messages returned by `findMessages` will have
+   components with names that match those specified in `fields`. An
+   optional field may be specified by starting the field name with a
+   `?` in the array.
+2. `predicate`: **CURRENTLY UNUSED** Just set to `{}`. In the future,
+   it will be used to filter messages further.
+3. `callback`: A function called on success (in which case, it will be
+   passed an array of Messages) or failure (in which case, it will be
+   passed an API Response with a non-zero error code).
+4. `realtime`: **OPTIONAL** If supplied, `realtime` is a callback that
+   accepts one argument - a Message. The callback will be called every
+   time a new message is *received* that has the necessary fields.
+
+Example:
+
+    melange.findMessages(
+        [
+            "getmelange.com/developer/method",
+            "?getmelange.com/developer/optional"
+        ],
+        {},
+        function(msgs) {
+            if (msgs.error !== undefined) {
+                // Something Happened
+                alert(msgs.error.message);
+                return;
+            }
+
+            // msgs is an array of Message Type
+        },
+        function(msg) {
+            alert("Received New Message");
+            // msg is of Message Type
+        }
+    )
 
 ### melange.downloadMessage(address, id, callback)
 
+`downloadMessage` will download a specific message named `id` from the
+Melange address `address`. Like `findMessages` callback will either
+receive the retrieved Message object *or* an API response that
+includes a non-zero error code.
+
+Example:
+
+    melange.downloadMessage("hleath@airdispatch.me",
+    "documentation/test-create",
+        function(msg) {
+            if (msg.error !== undefined) {
+                alert(msg.error.message);
+                return;
+            }
+
+            // msg is of type Message
+        })
+
 ### melange.downloadPublicMessages(fields, predicate, addr, callback)
+
+`downloadPublicMessages` will download all public messages from an
+address that satisfy the same `fields` and `predicate` filtering as in
+`findMessages`.
 
 # Viewer Management
 
