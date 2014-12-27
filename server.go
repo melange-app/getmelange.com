@@ -83,6 +83,10 @@ func main() {
 		pressure.NewURLRoute("^/api/applications", &ApplicationController{
 			Collection: db.C("apps"),
 		}),
+		pressure.NewURLRoute(
+			`^/api/resolve/(?P<url>[a-z\.:0-9]*)`,
+			&ResolverController{},
+		),
 	)
 
 	// Register Application URLS

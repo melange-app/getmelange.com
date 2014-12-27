@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	"airdispat.ch/tracker"
 	pressure "github.com/airdispatch/go-pressure"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
@@ -221,5 +222,19 @@ func (u *ApplicationController) GetResponse(
 		View: &JSONView{
 			Content: apps,
 		},
+	}, nil
+}
+
+type ResolverController struct{}
+
+func (u *ResolverController) GetResponse(
+	p *pressure.Request,
+	l *pressure.Logger,
+) (pressure.View, *pressure.HTTPError) {
+	return &pressure.BasicView{
+		Status: 200,
+		Text: tracker.GetTrackingServerLocationFromURL(
+			p.URL["url"],
+		),
 	}, nil
 }
