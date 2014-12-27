@@ -159,9 +159,7 @@ func (c *DeveloperIndex) GetResponse(p *pressure.Request, l *pressure.Logger) (p
 	if auth {
 		validToken := GetTokenFromSession(session)
 
-		config, _ := GetConfig()
-		t := config.NewTransport()
-		t.SetToken(validToken)
+		t := config.Client(nil, validToken)
 
 		gh := GithubFromTransport(t)
 
@@ -201,9 +199,7 @@ func clientOrError(req *http.Request) (*github.Client, *pressure.HTTPError) {
 
 	validToken := GetTokenFromSession(session)
 
-	config, _ := GetConfig()
-	t := config.NewTransport()
-	t.SetToken(validToken)
+	t := config.Client(nil, validToken)
 
 	return GithubFromTransport(t), nil
 }

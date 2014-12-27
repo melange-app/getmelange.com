@@ -5,50 +5,35 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/airdispatch/go-pressure"
-	"github.com/golang/oauth2"
+	pressure "github.com/airdispatch/go-pressure"
 	"github.com/google/go-github/github"
 	"github.com/gorilla/sessions"
+	"golang.org/x/oauth2"
 )
 
-var config = &oauth2.Options{
+var config = &oauth2.Config{
 	ClientID:     GithubId,
 	ClientSecret: GithubSecret,
 	Scopes:       []string{"user:email"},
 	RedirectURL:  "http://www.getmelange.com/developer/login",
+	Endpoint: oauth2.Endpoint{
+		AuthURL:  "https://github.com/login/oauth/autorize",
+		TokenURL: "https://github.com/login/oauth/access_token",
+	},
 }
 
-func GithubFromTransport(t *oauth2.Transport) *github.Client {
-	return github.NewClient(&http.Client{
-		Transport: t,
-	})
+func GithubFromTransport(t *http.Client) *github.Client {
+	return github.NewClient(t)
 }
 
-func GetConfig() (*oauth2.Flow, error) {
-	return oauth2.New(
-		oauth2.Client(GithubId, GithubSecret),
-		oauth2.Endpoint(
-			"https://github.com/login/oauth/autorize",
-			"https://github.com/login/oauth/access_token",
-		),
-		oauth2.RedirectURL("http://www.getmelange.com/developer/login"),
-		oauth2.Scope("user:email"),
-	)
-}
-
-func CreateClient(location string) (*github.Client, *oauth2.Transport) {
+func CreateClient(location string, token *oauth2.Token) (*github.Client, *http.Client) {
 	config.RedirectURL = fmt.Sprintf("%s/developer/login", location)
 
-	c, err := GetConfig()
-	if err != nil {
-		fmt.Println("Error getting config", err)
-	}
+	transport := config.Client(nil, token)
 
-	t := c.NewTransport()
-
-	return github.NewClient(&http.Client{
-		Transport: t,
-	}), t
+	return github.NewClient(
+		transport,
+	), transport
 }
 
 func PutTokenInSession(t *oauth2.Token, s *sessions.Session) {
@@ -90,16 +75,7 @@ func (c *LogoutController) GetResponse(p *pressure.Request, l *pressure.Logger) 
 type LoginController struct{}
 
 func (c *LoginController) GetResponse(p *pressure.Request, l *pressure.Logger) (pressure.View, *pressure.HTTPError) {
-	config, err := GetConfig()
-	if err != nil {
-		fmt.Println("Couldn't get config", err)
-		return nil, &pressure.HTTPError{
-			Code: 500,
-			Text: err.Error(),
-		}
-	}
-
-	t, err := config.NewTransportFromCode(p.Form["code"][0])
+	t, err := config.Exchange(nil, p.Form["code"][0])
 	if err != nil {
 		fmt.Println("Couldn't exchange token", err)
 		return nil, &pressure.HTTPError{
@@ -117,7 +93,7 @@ func (c *LoginController) GetResponse(p *pressure.Request, l *pressure.Logger) (
 		}
 	}
 
-	PutTokenInSession(t.Token(), session)
+	PutTokenInSession(t, session)
 	session.Values["authenticated"] = true
 
 	return &SessionView{
