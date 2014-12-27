@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"net/http"
 	"net/url"
 	"strconv"
 	"strings"
-
-	"airdispat.ch/tracker"
 	pressure "github.com/airdispatch/go-pressure"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
@@ -231,10 +230,23 @@ func (u *ResolverController) GetResponse(
 	p *pressure.Request,
 	l *pressure.Logger,
 ) (pressure.View, *pressure.HTTPError) {
+
 	return &pressure.BasicView{
 		Status: 200,
-		Text: tracker.GetTrackingServerLocationFromURL(
+		Text: getServerLocation(
 			p.URL["url"],
 		),
 	}, nil
+}
+
+func getServerLocation(url string) string {
+	_, recs, err := net.LookupSRV("adtp", "tcp", url)
+	if err != nil {
+		fmt.Println("Got error looking up server location", err)
+		return url
+	}
+	for _, s := range recs {
+		return fmt.Sprintf("%s:%d", s.Target, s.Port)
+	}
+	return url
 }
